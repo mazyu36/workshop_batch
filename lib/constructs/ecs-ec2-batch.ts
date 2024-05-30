@@ -43,6 +43,24 @@ export class EcsEc2Batch extends Construct {
           order: 1
         }
       ],
+      jobStateTimeLimitActions: [
+        {
+          action: batch.JobStateTimeLimitActionsAction.CANCEL,
+          maxTime: Duration.minutes(10),
+          reason: batch.JobStateTimeLimitActionsReason.INSUFFICIENT_INSTANCE_CAPACITY,
+          state: batch.JobStateTimeLimitActionsState.RUNNABLE,
+        },
+        {
+          action: batch.JobStateTimeLimitActionsAction.CANCEL,
+          maxTime: Duration.minutes(10),
+          reason: batch.JobStateTimeLimitActionsReason.COMPUTE_ENVIRONMENT_MAX_RESOURCE,
+          state: batch.JobStateTimeLimitActionsState.RUNNABLE,
+        },
+        {
+          maxTime: Duration.minutes(10),
+          reason: batch.JobStateTimeLimitActionsReason.JOB_RESOURCE_REQUIREMENT,
+        },
+      ],
       jobQueueName: 'stress-ng-queue'
     })
 
